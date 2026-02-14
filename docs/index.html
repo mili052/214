@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>新游测试周报看板（2026-02-09～2026-02-14）</title>
+    <meta name="description" content="2月9日至2月14期间新游：周报与可视化看板（GitHub Pages）" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header__left">
+        <div class="brand">
+          <div class="brand__title" id="brandTitle">新游测试周报看板</div>
+          <div class="brand__sub" id="brandSub">加载中…</div>
+        </div>
+      </div>
+      <div class="header__right">
+        <nav class="tabs" aria-label="页面切换">
+          <button class="tab is-active" data-tab="dashboard" type="button">看板</button>
+          <button class="tab" data-tab="report" type="button">周报</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main">
+      <section id="dashboard" class="panel is-active" aria-label="看板">
+        <section class="dash" aria-label="周报看板">
+          <div class="dash__grid">
+            <div class="dash__main">
+              <section class="card section" aria-label="本周外部焦点">
+                <div class="section__head">
+                  <div>
+                    <div class="section__title">本周外部焦点</div>
+                    <div class="section__sub">榜单异动 / 新上畅销（可贴图标）</div>
+                  </div>
+                  <div class="pills" id="pillSummary"></div>
+                </div>
+                <div class="focusGrid" id="focusCards"></div>
+              </section>
+
+              <section class="card section" aria-label="近期测试新游">
+                <div class="section__head section__head--row">
+                  <div>
+                    <div class="section__title">近期测试新游</div>
+                    <div class="section__sub" id="testsSub">加载中…</div>
+                  </div>
+                  <div class="controls">
+                    <input id="filterText" class="input" type="search" placeholder="搜索：游戏名 / 厂商 / 品类 / 备注…" />
+                    <select id="filterType" class="select" aria-label="按测试类型筛选">
+                      <option value="">全部类型</option>
+                    </select>
+                    <div class="seg" role="group" aria-label="视图切换">
+                      <button class="seg__btn is-active" id="viewTable" type="button">表格</button>
+                      <button class="seg__btn" id="viewCards" type="button">卡片</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tableWrap" id="testsTableWrap" aria-label="测试列表表格">
+                  <table class="table" id="testsTable">
+                    <thead>
+                      <tr>
+                        <th style="width: 76px">评级</th>
+                        <th>游戏</th>
+                        <th style="width: 92px">状态</th>
+                        <th style="width: 150px">类型/题材</th>
+                        <th style="width: 240px">厂商信息</th>
+                        <th>推荐理由</th>
+                        <th style="width: 72px">详情</th>
+                      </tr>
+                    </thead>
+                    <tbody id="testsTableBody"></tbody>
+                  </table>
+                </div>
+
+                <div class="cardsWrap is-hidden" id="testsCardsWrap" aria-label="测试列表卡片"></div>
+              </section>
+            </div>
+
+            <aside class="dash__side" aria-label="右侧风向标">
+              <section class="card section">
+                <div class="section__head section__head--row">
+                  <div>
+                    <div class="section__title">市场风向标</div>
+                    <div class="section__sub">把“信号”收敛成可执行要点</div>
+                  </div>
+                </div>
+
+                <div class="miniTabs" role="tablist" aria-label="风向标切换">
+                  <button class="miniTab is-active" id="windTabRank" type="button" role="tab" aria-selected="true">榜单动态</button>
+                  <button class="miniTab" id="windTabTrend" type="button" role="tab" aria-selected="false">趋势动态</button>
+                </div>
+                <div class="miniList" id="windList"></div>
+              </section>
+
+              <section class="card section">
+                <div class="section__head">
+                  <div>
+                    <div class="section__title">数据概览</div>
+                    <div class="section__sub">本周口径（去重统计）</div>
+                  </div>
+                </div>
+                <div class="stats" id="statsGrid">
+                  <div class="stat">
+                    <div class="stat__k" id="kpiTestCount">-</div>
+                    <div class="stat__v">本周测试/观察</div>
+                  </div>
+                  <div class="stat">
+                    <div class="stat__k" id="kpiRankCount">-</div>
+                    <div class="stat__v">榜单异动</div>
+                  </div>
+                  <div class="stat">
+                    <div class="stat__k" id="kpiWatchCount">-</div>
+                    <div class="stat__v">关注点</div>
+                  </div>
+                  <div class="stat">
+                    <div class="stat__k" id="kpiCompanyCount">-</div>
+                    <div class="stat__v">厂商（去重）</div>
+                  </div>
+                </div>
+              </section>
+            </aside>
+          </div>
+        </section>
+
+        <footer class="footer">
+          <div class="footer__left" id="footerMeta">-</div>
+          <div class="footer__right">
+            数据文件：<code>docs/kanban.json</code> · 周报文件：<code>docs/report.md</code>
+          </div>
+        </footer>
+      </section>
+
+      <section id="report" class="panel" aria-label="周报">
+        <div class="card report">
+          <div class="card__title">周报（Markdown 渲染）</div>
+          <div class="report__meta" id="reportMeta">加载中…</div>
+          <article class="report__content markdown" id="reportContent"></article>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked@12/marked.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
